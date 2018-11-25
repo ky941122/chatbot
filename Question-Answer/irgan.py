@@ -151,9 +151,9 @@ def generate_gan(sess, model, raw_loop, alist_loop, loss_type="pair",negative_si
 		# samples.append([encode_sent(vocab,item, FLAGS.max_sequence_length) for item in [q,a,pools[index]]])
 		exp_rating = np.exp(np.array(predicteds)*FLAGS.sampled_temperature*1.5)
 		prob = exp_rating / np.sum(exp_rating)
-		neg_samples = np.random.choice(pools, size= negative_size,p=prob,replace=False) 
-		for neg in neg_samples:
-			samples.append([q, a, neg])
+		neg_samples_index = np.random.choice(np.arange(len(pools)), size= negative_size,p=prob,replace=False)
+		for neg in neg_samples_index:
+			samples.append([q, a, pools[neg]])
 	return samples
 
 
